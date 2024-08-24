@@ -1,0 +1,11 @@
+.container {
+  background-color: var(--bgGreen);
+  display: flex;
+  height: var(--navbarHeight);
+  padding: 2.5rem 5.25rem;
+}
+
+.logo {
+  font-size: 2.5rem;
+  font-weight: 700;
+}

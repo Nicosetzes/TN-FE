@@ -1,0 +1,16 @@
+.container {
+  align-items: center;
+  background-color: var(--bgGreen);
+  display: flex;
+  gap: 2rem;
+  justify-content: center;
+  margin: 5rem auto 0 auto;
+  max-width: 600px;
+  padding: 3.75rem 2.25rem;
+  width: 100%;
+}
+
+.body {
+  display: flex;
+  flex-wrap: wrap;
+}

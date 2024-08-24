@@ -1,0 +1,6 @@
+.container {
+  background-color: var(--bgGreen);
+  display: flex;
+  justify-content: center;
+  padding: 2.5rem 5.25rem;
+}
