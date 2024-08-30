@@ -1,19 +1,8 @@
 "use client";
 
 import styles from "./styles.module.css";
-import { useFormState } from "react-dom";
-import { login } from "@/lib/action";
-import { useEffect } from "react";
-import { useRouter } from "next/navigation";
 
 const LoginForm = () => {
-  const router = useRouter();
-  const [state, formAction] = useFormState(login, undefined);
-
-  useEffect(() => {
-    state?.success && router.push("/");
-  }, [state?.success, router]);
-
   return (
     <>
       <form action={formAction} className={styles.form}>
