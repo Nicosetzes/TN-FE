@@ -5,7 +5,7 @@ import styles from "./styles.module.css";
 const LoginForm = () => {
   return (
     <>
-      <form action={formAction} className={styles.form}>
+      <form action="" className={styles.form}>
         <div className={styles.row}>
           <input type="text" name="username" placeholder="Usuario" />
         </div>
@@ -15,7 +15,6 @@ const LoginForm = () => {
         <button type="submit" className={styles.loginButton}>
           Login
         </button>
-        {state?.error}
       </form>
     </>
   );
