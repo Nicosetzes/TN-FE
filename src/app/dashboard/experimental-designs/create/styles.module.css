@@ -1,0 +1,11 @@
+.container {
+  border: #fff 1.5px solid;
+  margin: 5rem auto;
+  padding: 1.75rem 3.5rem;
+  text-align: center;
+  width: fit-content;
+}
+
+.container p {
+  margin: 0 0 1rem 0;
+}
