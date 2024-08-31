@@ -5,7 +5,7 @@ import { usePathname } from "next/navigation";
 import Link from "next/link";
 import { Button } from "@nextui-org/button";
 import { ArrowLeft } from "@/components/icons/ArrowLeft";
-import { ArrowRight } from "@/components/icons/arrowRight";
+import { ArrowRight } from "@/components/icons/ArrowRight";
 
 const StepsLayout = ({ children }) => {
   const pathname = usePathname();
