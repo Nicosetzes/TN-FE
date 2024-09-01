@@ -1,15 +1,20 @@
+"use client";
+
 import styles from "./styles.module.css";
+import Link from "next/link";
 
 const CreateExperimentalDesignPage = () => {
   return (
-    <div>
-      <div>Crear diseño experimental</div>
-      <div className={styles.container}>
-        <p>
-          Te haremos una serie de preguntas para generar tu diseño experimental
-        </p>
-        <button className="button-primary">Comenzar</button>
-      </div>
+    <div className={styles.container}>
+      <p>
+        Te haremos una serie de preguntas para generar tu diseño experimental
+      </p>
+      <Link
+        href="/dashboard/experimental-designs/create/step-1"
+        className="button-primary"
+      >
+        Comenzar
+      </Link>
     </div>
   );
 };
