@@ -4,11 +4,12 @@ import { useExperimentalDesign } from "@/context/ExperimentalDesignContext";
 import SpeciesList from "@/components/filteredSpecies/SpeciesList";
 import { ArrowRight } from "@/components/icons/ArrowRight";
 import { ArrowLeft } from "@/components/icons/ArrowLeft";
-import { biologicalModels } from "@/lib/data/";
 import { usePathname, useRouter } from "next/navigation";
+import { biologicalModels } from "@/lib/data";
 import { useState, useEffect } from "react";
 import { useForm } from "react-hook-form";
 import styles from "./styles.module.css";
+
 import Link from "next/link";
 
 const CreateExperimentalDesignStepTwo = () => {
@@ -48,9 +49,9 @@ const CreateExperimentalDesignStepTwo = () => {
   const handleSearch = (input) => {
     const results = biologicalModels.filter(
       ({ species, kingdom }) =>
-        species.includes(input) || kingdom.includes(input)
+        species.toLowerCase().includes(input.toLowerCase()) ||
+        kingdom.toLowerCase().includes(input.toLowerCase())
     );
-
     setFilteredSpecies(results);
   };
 
