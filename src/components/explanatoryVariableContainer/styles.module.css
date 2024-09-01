@@ -1,0 +1,30 @@
+.container {
+  display: flex;
+  flex-basis: 100%;
+  flex-direction: column;
+  margin: 0 auto;
+  max-width: 300px;
+}
+
+.formRow {
+  display: flex;
+  margin: 0.5rem 0;
+}
+
+.header {
+  text-align: center;
+}
+
+.header > div:last-child {
+  margin: 1rem 0;
+}
+
+.plusSign,
+.minusSign {
+  cursor: pointer;
+  margin: 0 0.5rem 0 0;
+}
+
+.alertCircle {
+  margin: 0 0.5rem 0 0;
+}

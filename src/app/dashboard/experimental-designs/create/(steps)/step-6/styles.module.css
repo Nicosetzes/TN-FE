@@ -1,28 +1,16 @@
-.arrowRight {
+.arrowLeft {
   align-items: center;
   display: flex;
   position: absolute;
-  right: 0;
+  left: 0;
   top: 0;
 }
 
 .container {
-  align-items: center;
   background-color: rgb(4, 17, 17);
   display: flex;
   justify-content: center;
   min-height: 500px;
   padding: 3rem 0;
   position: relative;
-}
-
-.form {
-  border: #fff 1px solid;
-  display: flex;
-  flex-direction: column;
-  padding: 2.25rem 1.75rem;
-}
-
-.form input[type="submit"] {
-  margin: 1rem 0 0 0;
 }

@@ -1,3 +1,10 @@
+.arrowLeft {
+  align-items: center;
+  display: flex;
+  position: absolute;
+  left: 0;
+  top: 0;
+}
 .arrowRight {
   align-items: center;
   display: flex;
@@ -7,7 +14,6 @@
 }
 
 .container {
-  align-items: center;
   background-color: rgb(4, 17, 17);
   display: flex;
   justify-content: center;
@@ -23,6 +29,21 @@
   padding: 2.25rem 1.75rem;
 }
 
+.formRow {
+  display: flex;
+  margin: 0.5rem 0;
+}
+
+.formRow .plusSign {
+  margin: 0;
+}
+
 .form input[type="submit"] {
   margin: 1rem 0 0 0;
+}
+
+.plusSign,
+.minusSign {
+  cursor: pointer;
+  margin: 0 0.5rem 0 0;
 }

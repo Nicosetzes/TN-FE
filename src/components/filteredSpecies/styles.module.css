@@ -1,0 +1,9 @@
+.listElement {
+  cursor: pointer;
+  margin: 0.5rem 0;
+}
+
+.listElement:hover {
+  /* background-color: #192929; */
+  text-decoration: underline;
+}

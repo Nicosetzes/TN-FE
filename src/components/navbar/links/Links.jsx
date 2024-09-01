@@ -4,6 +4,7 @@ import { useState } from "react";
 import Image from "next/image";
 import styles from "./styles.module.css";
 import NavLink from "./navLink/NavLink";
+import { Hamburger } from "@/components/icons/Hamburger";
 
 const links = [
   { title: "Home", path: "/" },
@@ -42,7 +43,7 @@ const Links = () => {
         onClick={() => setOpen((prev) => !prev)}
         aria-expanded={open}
       >
-        <Image src="/hamburger.svg" alt="" width={24} height={24} />
+        <Hamburger size={24} />
       </button>
       <div className={`${styles.navbarMobile} ${open ? styles.open : ""}`}>
         {links.map((link) => (

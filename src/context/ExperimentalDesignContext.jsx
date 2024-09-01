@@ -13,14 +13,14 @@ export const ExperimentalDesignProvider = ({ children }) => {
   const [state, setState] = useState("Estado inicial");
   console.log("Current State:", state);
 
-  const updateExperimentalDesign = ({ step, value }) => {
+  const updateExperimentalDesign = ({ key, step, value }) => {
     const isStepInExperimentalDesign = experimentalDesign.filter(
       (element) => element.step === step
     );
 
     if (!isStepInExperimentalDesign.length) {
       console.log("Agrego nuevo");
-      setExperimentalDesign([...experimentalDesign, { step, value }]);
+      setExperimentalDesign([...experimentalDesign, { key, step, value }]);
     } else {
       const updatedExperimentalDesign = experimentalDesign.map((element) => {
         console.log("Modifico");

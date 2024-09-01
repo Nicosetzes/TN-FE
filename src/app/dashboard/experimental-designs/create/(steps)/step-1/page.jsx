@@ -5,8 +5,9 @@ import { ArrowRight } from "@/components/icons/ArrowRight";
 import { usePathname, useRouter } from "next/navigation";
 import { useForm } from "react-hook-form";
 import styles from "./styles.module.css";
-import Link from "next/link";
+import { motion } from "framer-motion";
 import { useEffect } from "react";
+import Link from "next/link";
 
 const CreateExperimentalDesignStepOne = () => {
   const pathname = usePathname();
@@ -19,8 +20,8 @@ const CreateExperimentalDesignStepOne = () => {
 
   const { handleSubmit, register, setValue, watch } = useForm();
 
-  const onSubmit = (data) => {
-    updateExperimentalDesign({ step: currentStep, value: data });
+  const onSubmit = ({ name }) => {
+    updateExperimentalDesign({ key: "name", step: currentStep, value: name });
     router.push("/dashboard/experimental-designs/create/step-2");
   };
 
@@ -30,7 +31,10 @@ const CreateExperimentalDesignStepOne = () => {
       const hasValueBeenDeclared = experimentalDesign
         .filter((element) => element.step === currentStep)
         .at(0);
-      hasValueBeenDeclared && setValue("name", hasValueBeenDeclared.value.name);
+      if (hasValueBeenDeclared) {
+        console.log("El paso ya se había confirmado");
+        setValue("name", hasValueBeenDeclared.value);
+      }
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [pathname]);
@@ -40,9 +44,16 @@ const CreateExperimentalDesignStepOne = () => {
   console.log(experimentalDesign);
 
   return (
-    <div className={styles.container}>
-      <Link href="/dashboard/experimental-designs/create/step-2">
-        Siguiente <ArrowRight />
+    <motion.div
+      initial={{ opacity: 0 }}
+      animate={{ opacity: 1 }}
+      className={styles.container}
+    >
+      <Link
+        href="/dashboard/experimental-designs/create/step-2"
+        className={styles.arrowRight}
+      >
+        Siguiente <ArrowRight size={36} />
       </Link>
       <form onSubmit={handleSubmit(onSubmit)} className={styles.form}>
         <input {...register("name")} placeholder="Nombre" />
@@ -53,7 +64,7 @@ const CreateExperimentalDesignStepOne = () => {
           className="button-primary"
         />
       </form>
-    </div>
+    </motion.div>
   );
 };
 

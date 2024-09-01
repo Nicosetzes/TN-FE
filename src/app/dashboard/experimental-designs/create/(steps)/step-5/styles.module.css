@@ -1,3 +1,10 @@
+.arrowLeft {
+  align-items: center;
+  display: flex;
+  position: absolute;
+  left: 0;
+  top: 0;
+}
 .arrowRight {
   align-items: center;
   display: flex;
@@ -7,7 +14,6 @@
 }
 
 .container {
-  align-items: center;
   background-color: rgb(4, 17, 17);
   display: flex;
   justify-content: center;
@@ -16,13 +22,26 @@
   position: relative;
 }
 
+.containerError > div {
+  margin: 0 0 1.25rem 0;
+}
+
 .form {
   border: #fff 1px solid;
   display: flex;
   flex-direction: column;
   padding: 2.25rem 1.75rem;
+  width: 100%;
+}
+
+.form > div {
+  align-items: center;
+  display: flex;
+  flex-wrap: wrap;
 }
 
 .form input[type="submit"] {
-  margin: 1rem 0 0 0;
+  margin: 1rem auto 0 auto;
+  max-width: 250px;
+  width: 100%;
 }
