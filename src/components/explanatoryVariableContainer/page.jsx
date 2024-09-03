@@ -7,16 +7,16 @@ import { useFormContext } from "react-hook-form";
 import styles from "./styles.module.css";
 import { useEffect, useState } from "react";
 
-const ExplanatoryVariableContainer = ({ id, variable }) => {
+const ExplanatoryVariableContainer = ({ id, explanatory_variable }) => {
   const { register, setValue, watch } = useFormContext(); // useFormContext me permite conectar con el formulario del /step correspondiente
 
   const [isThirdRowOpen, setIsThirdRowOpen] = useState(false);
   const [isFourthRowOpen, setIsFourthRowOpen] = useState(false);
   const [isFifthRowOpen, setIsFifthRowOpen] = useState(false);
 
-  const thirdLevel = watch(`explanatoryVariableLevel${id}3`);
-  const fourthLevel = watch(`explanatoryVariableLevel${id}4`);
-  const fifthLevel = watch(`explanatoryVariableLevel${id}5`);
+  const thirdLevel = watch(`explanatory_variable_level_${id}3`);
+  const fourthLevel = watch(`explanatory_variable_level_${id}4`);
+  const fifthLevel = watch(`explanatory_variable_level_${id}5`);
 
   useEffect(() => {
     if (thirdLevel) setIsThirdRowOpen(true);
@@ -27,20 +27,20 @@ const ExplanatoryVariableContainer = ({ id, variable }) => {
   return (
     <div className={styles.container}>
       <div className={styles.header}>
-        <div>{`Variable: ${variable}`}</div>
+        <div>{`Variable: ${explanatory_variable}`}</div>
         <div>{"Presioná el botón para agregar un nuevo nivel (máx 5)"}</div>
       </div>
       <div className={styles.formRow}>
         <AlertCircle size={32} className={styles.alertCircle} />
         <input
-          {...register(`explanatoryVariableLevel${id}1`)}
+          {...register(`explanatory_variable_level_${id}1`)}
           placeholder="Requerida"
         />
       </div>
       <div className={styles.formRow}>
         <AlertCircle size={32} className={styles.alertCircle} />
         <input
-          {...register(`explanatoryVariableLevel${id}2`)}
+          {...register(`explanatory_variable_level_${id}2`)}
           placeholder="Requerida"
         />
       </div>
@@ -58,11 +58,11 @@ const ExplanatoryVariableContainer = ({ id, variable }) => {
               className={styles.minusSign}
               onClick={() => {
                 setIsThirdRowOpen(!isThirdRowOpen);
-                setValue(`explanatoryVariableLevel${id}3`, null);
+                setValue(`explanatory_variable_level_${id}3`, null);
               }}
             />
             <input
-              {...register(`explanatoryVariableLevel${id}3`)}
+              {...register(`explanatory_variable_level_${id}3`)}
               placeholder="Ingrese una categoría"
             />
           </>
@@ -83,11 +83,11 @@ const ExplanatoryVariableContainer = ({ id, variable }) => {
                 className={styles.minusSign}
                 onClick={() => {
                   setIsFourthRowOpen(!isFourthRowOpen);
-                  setValue(`explanatoryVariableLevel${id}4`, null);
+                  setValue(`explanatory_variable_level_${id}4`, null);
                 }}
               />
               <input
-                {...register(`explanatoryVariableLevel${id}4`)}
+                {...register(`explanatory_variable_level_${id}4`)}
                 placeholder="Ingrese una categoría"
               />
             </>
@@ -109,11 +109,11 @@ const ExplanatoryVariableContainer = ({ id, variable }) => {
                 className={styles.minusSign}
                 onClick={() => {
                   setIsFifthRowOpen(!isFifthRowOpen);
-                  setValue(`explanatoryVariableLevel${id}5`, null);
+                  setValue(`explanatory_variable_level_${id}5`, null);
                 }}
               />
               <input
-                {...register(`explanatoryVariableLevel${id}5`)}
+                {...register(`explanatory_variable_level_${id}5`)}
                 placeholder="Ingrese una categoría"
               />
             </>

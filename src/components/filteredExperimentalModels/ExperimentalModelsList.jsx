@@ -1,7 +1,7 @@
 import styles from "./styles.module.css";
 import { AnimatePresence, motion } from "framer-motion";
 
-const SpeciesList = ({ list, action }) => {
+const ExperimentalModelsList = ({ list, action }) => {
   const isOpen = list.length ? true : false;
 
   const variants = {
@@ -38,4 +38,4 @@ const SpeciesList = ({ list, action }) => {
   );
 };
 
-export default SpeciesList;
+export default ExperimentalModelsList;

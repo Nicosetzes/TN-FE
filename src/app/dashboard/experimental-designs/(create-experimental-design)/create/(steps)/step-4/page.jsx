@@ -23,25 +23,20 @@ const CreateExperimentalDesignStepFour = () => {
 
   const { handleSubmit, register, setValue, watch } = useForm();
 
-  const onSubmit = ({
-    firstExplanatoryVariable,
-    secondExplanatoryVariable,
-    thirdExplanatoryVariable,
-  }) => {
-    const explanatoryVariables = [
-      firstExplanatoryVariable,
-      secondExplanatoryVariable,
-      thirdExplanatoryVariable,
-    ]
-      .filter((variable) => variable)
-      .map((variable, index) => {
-        return { id: (index + 1).toString(), variable };
-      });
+  const onSubmit = (data) => {
+    const explanatory_variables = Object.keys(data)
+      .filter((key) => key.startsWith("explanatory_variable_"))
+      .map((key) => ({
+        name: key,
+        value: data[key],
+        levels: [], // Inicializamos levels como un array vacío
+      }))
+      .filter(({ value }) => value);
 
     updateExperimentalDesign({
-      key: "explanatoryVariables",
       step: currentStep,
-      value: explanatoryVariables,
+      key: "explanatory_variables",
+      value: explanatory_variables,
     });
     router.push("/dashboard/experimental-designs/create/step-5");
   };
@@ -49,31 +44,26 @@ const CreateExperimentalDesignStepFour = () => {
   useEffect(() => {
     console.log("Chequeo si el paso ya se confirmó");
     if (experimentalDesign.length) {
-      const hasValueBeenDeclared = experimentalDesign
-        .filter((element) => element.step === currentStep)
-        .at(0);
-      console.log(hasValueBeenDeclared);
-      if (hasValueBeenDeclared) {
-        const { value } = hasValueBeenDeclared;
+      const haveValuesBeenDeclared = experimentalDesign.filter(
+        (element) => element.step === currentStep
+      );
+
+      if (haveValuesBeenDeclared.length) {
         console.log("El paso ya se había confirmado");
-
-        setValue("firstExplanatoryVariable", value.at(0).variable);
-        setIsFirstRowOpen(true);
-
-        if (value.at(1)) {
-          setValue("secondExplanatoryVariable", value.at(1).variable);
-          setIsSecondRowOpen(true);
-        }
-        if (value.at(2)) {
-          setValue("thirdExplanatoryVariable", value.at(2).variable);
-          setIsThirdRowOpen(true);
-        }
+        console.log(haveValuesBeenDeclared);
+        const { value } = haveValuesBeenDeclared.at(0);
+        value.forEach(({ name, value }, index) => {
+          setValue(name, value);
+          if (index === 0) setIsFirstRowOpen(true);
+          if (index === 1) setIsSecondRowOpen(true);
+          if (index === 2) setIsThirdRowOpen(true);
+        });
       }
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [pathname]);
 
-  const watchfirstExplanatoryVariable = watch("firstExplanatoryVariable");
+  const watchfirstExplanatoryVariable = watch("explanatory_variable_1");
 
   const [isFirstRowOpen, setIsFirstRowOpen] = useState(false);
   const [isSecondRowOpen, setIsSecondRowOpen] = useState(false);
@@ -121,11 +111,11 @@ const CreateExperimentalDesignStepFour = () => {
                 className={styles.minusSign}
                 onClick={() => {
                   setIsFirstRowOpen(!isFirstRowOpen);
-                  setValue("firstExplanatoryVariable", null);
+                  setValue("explanatory_variable_1", null);
                 }}
               />
               <input
-                {...register("firstExplanatoryVariable")}
+                {...register("explanatory_variable_1")}
                 placeholder="Ingrese la variable 1"
               />
             </>
@@ -147,11 +137,11 @@ const CreateExperimentalDesignStepFour = () => {
                     className={styles.minusSign}
                     onClick={() => {
                       setIsSecondRowOpen(!isSecondRowOpen);
-                      setValue("secondExplanatoryVariable", null);
+                      setValue("explanatory_variable_2", null);
                     }}
                   />
                   <input
-                    {...register("secondExplanatoryVariable")}
+                    {...register("explanatory_variable_2")}
                     placeholder="Ingrese la variable 2"
                   />
                 </>
@@ -174,11 +164,11 @@ const CreateExperimentalDesignStepFour = () => {
                   className={styles.minusSign}
                   onClick={() => {
                     setIsThirdRowOpen(!isThirdRowOpen);
-                    setValue("thirdExplanatoryVariable", null);
+                    setValue("explanatory_variable_3", null);
                   }}
                 />
                 <input
-                  {...register("thirdExplanatoryVariable")}
+                  {...register("explanatory_variable_3")}
                   placeholder="Ingrese la variable 3"
                 />
               </>

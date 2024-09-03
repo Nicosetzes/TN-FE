@@ -3,14 +3,13 @@
 import { useExperimentalDesign } from "@/context/ExperimentalDesignContext";
 import { ArrowRight } from "@/components/icons/ArrowRight";
 import { usePathname, useRouter } from "next/navigation";
-import { ArrowLeft } from "@/components/icons/ArrowLeft";
 import { useForm } from "react-hook-form";
 import styles from "./styles.module.css";
 import { motion } from "framer-motion";
 import { useEffect } from "react";
 import Link from "next/link";
 
-const CreateExperimentalDesignStepThree = () => {
+const CreateExperimentalDesignStepOne = () => {
   const pathname = usePathname();
   const router = useRouter();
 
@@ -21,13 +20,13 @@ const CreateExperimentalDesignStepThree = () => {
 
   const { handleSubmit, register, setValue, watch } = useForm();
 
-  const onSubmit = ({ responseVariable }) => {
+  const onSubmit = ({ experimental_design_name }) => {
     updateExperimentalDesign({
-      key: "responseVariable",
+      key: "experimental_design_name",
       step: currentStep,
-      value: responseVariable,
+      value: experimental_design_name,
     });
-    router.push("/dashboard/experimental-designs/create/step-4");
+    router.push("/dashboard/experimental-designs/create/step-2");
   };
 
   useEffect(() => {
@@ -38,15 +37,14 @@ const CreateExperimentalDesignStepThree = () => {
         .at(0);
       if (hasValueBeenDeclared) {
         console.log("El paso ya se había confirmado");
-        setValue("responseVariable", hasValueBeenDeclared.value);
+        const { key, value } = hasValueBeenDeclared;
+        setValue(key, value);
       }
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [pathname]);
 
-  const watchResponseVariable = watch("responseVariable");
-
-  console.log(watchResponseVariable);
+  const watchExperimentalDesignName = watch("experimental_design_name");
 
   console.log(experimentalDesign);
 
@@ -58,22 +56,16 @@ const CreateExperimentalDesignStepThree = () => {
     >
       <Link
         href="/dashboard/experimental-designs/create/step-2"
-        className={styles.arrowLeft}
-      >
-        Volver <ArrowLeft size={36} />
-      </Link>
-      <Link
-        href="/dashboard/experimental-designs/create/step-4"
         className={styles.arrowRight}
       >
         Siguiente <ArrowRight size={36} />
       </Link>
       <form onSubmit={handleSubmit(onSubmit)} className={styles.form}>
-        <input {...register("responseVariable")} placeholder="Medición" />
+        <input {...register("experimental_design_name")} placeholder="Nombre" />
         <input
           type="submit"
           value="Enviar"
-          disabled={!watchResponseVariable}
+          disabled={!watchExperimentalDesignName}
           className="button-primary"
         />
       </form>
@@ -81,4 +73,4 @@ const CreateExperimentalDesignStepThree = () => {
   );
 };
 
-export default CreateExperimentalDesignStepThree;
+export default CreateExperimentalDesignStepOne;

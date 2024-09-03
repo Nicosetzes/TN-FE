@@ -10,22 +10,19 @@ export const useExperimentalDesign = () =>
 export const ExperimentalDesignProvider = ({ children }) => {
   const [experimentalDesign, setExperimentalDesign] = useState([]);
 
-  const [state, setState] = useState("Estado inicial");
-  console.log("Current State:", state);
-
-  const updateExperimentalDesign = ({ key, step, value }) => {
+  const updateExperimentalDesign = ({ step, key, value }) => {
     const isStepInExperimentalDesign = experimentalDesign.filter(
       (element) => element.step === step
     );
 
     if (!isStepInExperimentalDesign.length) {
       console.log("Agrego nuevo");
-      setExperimentalDesign([...experimentalDesign, { key, step, value }]);
+      setExperimentalDesign([...experimentalDesign, { step, key, value }]);
     } else {
       const updatedExperimentalDesign = experimentalDesign.map((element) => {
         console.log("Modifico");
         if (element.step === step) {
-          return { ...element, value };
+          return { ...element, key, value };
         }
         return element;
       });
@@ -35,7 +32,11 @@ export const ExperimentalDesignProvider = ({ children }) => {
 
   return (
     <ExperimentalDesignContext.Provider
-      value={{ experimentalDesign, updateExperimentalDesign }}
+      value={{
+        experimentalDesign,
+        setExperimentalDesign,
+        updateExperimentalDesign,
+      }}
     >
       {children}
     </ExperimentalDesignContext.Provider>

@@ -1,7 +1,7 @@
 "use client";
 
 import { useExperimentalDesign } from "@/context/ExperimentalDesignContext";
-import SpeciesList from "@/components/filteredSpecies/SpeciesList";
+import ExperimentalModelsList from "@/components/filteredExperimentalModels/ExperimentalModelsList";
 import { ArrowRight } from "@/components/icons/ArrowRight";
 import { ArrowLeft } from "@/components/icons/ArrowLeft";
 import { usePathname, useRouter } from "next/navigation";
@@ -10,7 +10,6 @@ import { biologicalModels } from "@/lib/data";
 import { useState, useEffect } from "react";
 import { useForm } from "react-hook-form";
 import styles from "./styles.module.css";
-
 import Link from "next/link";
 
 const CreateExperimentalDesignStepTwo = () => {
@@ -24,57 +23,49 @@ const CreateExperimentalDesignStepTwo = () => {
 
   const { handleSubmit, register, setValue, watch } = useForm();
 
-  const [filteredSpecies, setFilteredSpecies] = useState("");
-  const [selectedSpecies, setSelectedSpecies] = useState("");
-  const [isSpeciesListVisible, setIsSpeciesListVisible] = useState(false);
+  const [filteredExperimentalModels, setFilteredExperimentalModels] =
+    useState("");
+  const [selectedExperimentalModel, setSelectedExperimentalModel] =
+    useState("");
+  const [isExperimentalModelsListVisible, setIsExperimentalModelsListVisible] =
+    useState(false);
   const [isSubmitEnabled, setIsSubmitEnabled] = useState(false);
 
   console.log(experimentalDesign);
-
-  // useEffect(() => {
-  //   console.log("Chequeo si el paso ya se confirmó");
-  //   if (experimentalDesign.length) {
-  //     const hasValueBeenDeclared = experimentalDesign
-  //       .filter((element) => element.step === currentStep)
-  //       .at(0);
-  //     if (hasValueBeenDeclared) {
-  //       console.log("El paso ya se había confirmado");
-  //       setValue("species", hasValueBeenDeclared.value);
-  //     }
-  //   }
-  //   // eslint-disable-next-line react-hooks/exhaustive-deps
-  // }, [pathname]);
 
   useEffect(() => {
     const hasValueBeenDeclared = experimentalDesign.find(
       (element) => element.step === currentStep
     );
 
+    console.log(hasValueBeenDeclared);
+
     if (hasValueBeenDeclared) {
-      setValue("species", hasValueBeenDeclared.value);
-      setSelectedSpecies(hasValueBeenDeclared.value);
+      const { key, value } = hasValueBeenDeclared;
+      setValue(key, value);
+      setSelectedExperimentalModel(value);
       setIsSubmitEnabled(true);
-      setIsSpeciesListVisible(false);
+      setIsExperimentalModelsListVisible(false);
     }
   }, [pathname, experimentalDesign, currentStep, setValue]);
 
-  const watchSpecies = watch("species");
+  const watchExperimentalModel = watch("experimental_model");
 
   useEffect(() => {
-    if (watchSpecies && watchSpecies.length > 2) {
-      if (watchSpecies !== selectedSpecies) {
-        setIsSpeciesListVisible(true);
+    if (watchExperimentalModel && watchExperimentalModel.length > 2) {
+      if (watchExperimentalModel !== selectedExperimentalModel) {
+        setIsExperimentalModelsListVisible(true);
         setIsSubmitEnabled(false);
-        handleSearch(watchSpecies);
+        handleSearch(watchExperimentalModel);
       } else {
-        setIsSpeciesListVisible(false);
+        setIsExperimentalModelsListVisible(false);
         setIsSubmitEnabled(true);
       }
     } else {
-      setIsSpeciesListVisible(false);
-      setFilteredSpecies([]);
+      setIsExperimentalModelsListVisible(false);
+      setFilteredExperimentalModels([]);
     }
-  }, [watchSpecies, selectedSpecies]);
+  }, [watchExperimentalModel, selectedExperimentalModel]);
 
   const handleSearch = (input) => {
     const results = biologicalModels.filter(
@@ -82,21 +73,21 @@ const CreateExperimentalDesignStepTwo = () => {
         species.toLowerCase().includes(input.toLowerCase()) ||
         kingdom.toLowerCase().includes(input.toLowerCase())
     );
-    setFilteredSpecies(results);
+    setFilteredExperimentalModels(results);
   };
 
-  const selectSpecies = (selection) => {
-    setSelectedSpecies(selection);
-    setFilteredSpecies([]);
-    setValue("species", selection);
+  const selectExperimentalModel = (selection) => {
+    setSelectedExperimentalModel(selection);
+    setFilteredExperimentalModels([]);
+    setValue("experimental_model", selection);
     setIsSubmitEnabled(true);
   };
 
-  const onSubmit = ({ species }) => {
+  const onSubmit = ({ experimental_model }) => {
     updateExperimentalDesign({
-      key: "species",
+      key: "experimental_model",
       step: currentStep,
-      value: species,
+      value: experimental_model,
     });
     router.push("/dashboard/experimental-designs/create/step-3");
   };
@@ -131,11 +122,14 @@ const CreateExperimentalDesignStepTwo = () => {
       </Link>
       <form onSubmit={handleSubmit(onSubmit)} className={styles.form}>
         <input
-          {...register("species")}
+          {...register("experimental_model")}
           placeholder="Ingrese la especie o reino..."
         />
-        {isSpeciesListVisible && (
-          <SpeciesList list={filteredSpecies} action={selectSpecies} />
+        {isExperimentalModelsListVisible && (
+          <ExperimentalModelsList
+            list={filteredExperimentalModels}
+            action={selectExperimentalModel}
+          />
         )}
         <AnimatePresence>
           {isSubmitEnabled && (
