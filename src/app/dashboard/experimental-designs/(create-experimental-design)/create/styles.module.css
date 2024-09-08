@@ -1,7 +1,8 @@
 .container {
+  background-color: rgb(4, 17, 17);
   border: #fff 1.5px solid;
   margin: 5rem auto;
-  padding: 1.75rem;
+  padding: 3rem;
   text-align: center;
   width: fit-content;
 }

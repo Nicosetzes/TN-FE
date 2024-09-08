@@ -1,11 +1,16 @@
 "use client";
 
+import ExperimentalDesignBreadcrumb from "@/components/experimentalDesignBreadcrumb/ExperimentalDesignBreadcrumb";
 import { useExperimentalDesign } from "@/context/ExperimentalDesignContext";
+import { explanatoryVariablesFormSchema } from "@/utils/definitions";
+import { AlertCircle } from "@/components/icons/AlertCircle";
 import { ArrowRight } from "@/components/icons/ArrowRight";
 import { usePathname, useRouter } from "next/navigation";
 import { ArrowLeft } from "@/components/icons/ArrowLeft";
 import { MinusSign } from "@/components/icons/MinusSign";
 import { PlusSign } from "@/components/icons/PlusSign";
+import { zodResolver } from "@hookform/resolvers/zod";
+import { toastFormError } from "@/utils/alerts";
 import { useEffect, useState } from "react";
 import { useForm } from "react-hook-form";
 import styles from "./styles.module.css";
@@ -21,7 +26,33 @@ const CreateExperimentalDesignStepFour = () => {
   const { experimentalDesign, updateExperimentalDesign } =
     useExperimentalDesign();
 
-  const { handleSubmit, register, setValue, watch } = useForm();
+  const {
+    formState: { errors },
+    handleSubmit,
+    register,
+    setValue,
+    unregister,
+    trigger,
+    watch,
+  } = useForm({
+    resolver: zodResolver(explanatoryVariablesFormSchema),
+  });
+
+  const validateForm = async () => {
+    const isFormValidated = await trigger();
+
+    console.log(isFormValidated);
+
+    console.log(errors);
+
+    if (!isFormValidated) {
+      toastFormError(3000);
+      return;
+    }
+
+    // Solo llamar a handleSubmit si la validación es exitosa
+    handleSubmit(onSubmit)();
+  };
 
   const onSubmit = (data) => {
     const explanatory_variables = Object.keys(data)
@@ -54,7 +85,7 @@ const CreateExperimentalDesignStepFour = () => {
         const { value } = haveValuesBeenDeclared.at(0);
         value.forEach(({ name, value }, index) => {
           setValue(name, value);
-          if (index === 0) setIsFirstRowOpen(true);
+          // if (index === 0) setIsFirstRowOpen(true);
           if (index === 1) setIsSecondRowOpen(true);
           if (index === 2) setIsThirdRowOpen(true);
         });
@@ -64,8 +95,10 @@ const CreateExperimentalDesignStepFour = () => {
   }, [pathname]);
 
   const watchfirstExplanatoryVariable = watch("explanatory_variable_1");
+  const watchSecondExplanatoryVariable = watch("explanatory_variable_2");
+  const watchThirdExplanatoryVariable = watch("explanatory_variable_3");
 
-  const [isFirstRowOpen, setIsFirstRowOpen] = useState(false);
+  // const [isFirstRowOpen, setIsFirstRowOpen] = useState(false);
   const [isSecondRowOpen, setIsSecondRowOpen] = useState(false);
   const [isThirdRowOpen, setIsThirdRowOpen] = useState(false);
 
@@ -89,20 +122,31 @@ const CreateExperimentalDesignStepFour = () => {
       >
         Siguiente <ArrowRight size={36} />
       </Link>
+      <ExperimentalDesignBreadcrumb
+        pathname={pathname}
+        step={currentStep}
+        isOverviewHidden={!experimentalDesign.length}
+      />
       <form onSubmit={handleSubmit(onSubmit)} className={styles.form}>
         <div className={styles.formRow}>
-          {
-            "Presioná el botón para agregar una nueva variable explicatoria (máx. 3)."
-          }
+          {"Agregue las variables explicativas (máx. 3):"}
         </div>
         <div className={styles.formRow}>
-          {!isFirstRowOpen ? (
+          <AlertCircle size={32} className={styles.alertCircle} />
+          <input
+            {...register("explanatory_variable_1")}
+            placeholder="Ingrese la variable 1"
+          />
+        </div>
+        <div className={styles.formCustomError}>
+          {errors?.explanatory_variable_1?.message}
+        </div>
+        <div className={styles.formRow}>
+          {!isSecondRowOpen ? (
             <PlusSign
               size={32}
               className={styles.plusSign}
-              onClick={() => {
-                setIsFirstRowOpen(!isFirstRowOpen);
-              }}
+              onClick={() => setIsSecondRowOpen(!isSecondRowOpen)}
             />
           ) : (
             <>
@@ -110,25 +154,30 @@ const CreateExperimentalDesignStepFour = () => {
                 size={32}
                 className={styles.minusSign}
                 onClick={() => {
-                  setIsFirstRowOpen(!isFirstRowOpen);
-                  setValue("explanatory_variable_1", null);
+                  setIsSecondRowOpen(!isSecondRowOpen);
+                  setIsThirdRowOpen(false); // En esta excepción, siempre quiero que se cierre
+                  setValue("explanatory_variable_2", undefined);
+                  setValue("explanatory_variable_3", undefined);
                 }}
               />
               <input
-                {...register("explanatory_variable_1")}
-                placeholder="Ingrese la variable 1"
+                {...register("explanatory_variable_2")}
+                placeholder="Ingrese la variable 2"
               />
             </>
           )}
         </div>
-        {isFirstRowOpen && (
+        <div className={styles.formCustomError}>
+          {errors?.explanatory_variable_2?.message}
+        </div>
+        {isSecondRowOpen && (
           <>
             <div className={styles.formRow}>
-              {!isSecondRowOpen ? (
+              {!isThirdRowOpen ? (
                 <PlusSign
                   size={32}
                   className={styles.plusSign}
-                  onClick={() => setIsSecondRowOpen(!isSecondRowOpen)}
+                  onClick={() => setIsThirdRowOpen(!isThirdRowOpen)}
                 />
               ) : (
                 <>
@@ -136,53 +185,29 @@ const CreateExperimentalDesignStepFour = () => {
                     size={32}
                     className={styles.minusSign}
                     onClick={() => {
-                      setIsSecondRowOpen(!isSecondRowOpen);
-                      setValue("explanatory_variable_2", null);
+                      setIsThirdRowOpen(!isThirdRowOpen);
+                      setValue("explanatory_variable_3", undefined);
                     }}
                   />
                   <input
-                    {...register("explanatory_variable_2")}
-                    placeholder="Ingrese la variable 2"
+                    {...register("explanatory_variable_3")}
+                    placeholder="Ingrese la variable 3"
                   />
                 </>
               )}
             </div>
+            <div className={styles.formCustomError}>
+              {errors?.explanatory_variable_3?.message}
+            </div>
           </>
         )}
-        {isSecondRowOpen && (
-          <div className={styles.formRow}>
-            {!isThirdRowOpen ? (
-              <PlusSign
-                size={32}
-                className={styles.plusSign}
-                onClick={() => setIsThirdRowOpen(!isThirdRowOpen)}
-              />
-            ) : (
-              <>
-                <MinusSign
-                  size={32}
-                  className={styles.minusSign}
-                  onClick={() => {
-                    setIsThirdRowOpen(!isThirdRowOpen);
-                    setValue("explanatory_variable_3", null);
-                  }}
-                />
-                <input
-                  {...register("explanatory_variable_3")}
-                  placeholder="Ingrese la variable 3"
-                />
-              </>
-            )}
-          </div>
-        )}
-        {isFirstRowOpen && (
-          <input
-            type="submit"
-            value="Confirmar"
-            disabled={!watchfirstExplanatoryVariable}
-            className="button-primary"
-          />
-        )}
+        <button
+          value="Enviar"
+          className="button-primary"
+          onClick={validateForm}
+        >
+          Enviar
+        </button>
       </form>
     </motion.div>
   );

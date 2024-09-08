@@ -30,12 +30,49 @@ export const ExperimentalDesignProvider = ({ children }) => {
     }
   };
 
+  const updateExperimentalDesignWithMultipleEntries = (step, entries) => {
+    const currentStep = step;
+    const newEntries = entries;
+
+    console.log(currentStep);
+    console.log(newEntries);
+
+    const isStepInExperimentalDesign = experimentalDesign.filter(
+      (element) => element.step == currentStep
+    );
+
+    const formattedEntries = newEntries.map(({ name, value }) => {
+      return {
+        step: currentStep,
+        key: name,
+        value,
+      };
+    });
+
+    if (!isStepInExperimentalDesign.length) {
+      console.log("Agrego entradas nuevas");
+
+      setExperimentalDesign([...experimentalDesign, ...formattedEntries]);
+    } else {
+      console.log("Modifico");
+      const updatedExperimentalDesign = experimentalDesign.filter(
+        (item) => item.step != step
+      );
+
+      setExperimentalDesign([
+        ...updatedExperimentalDesign,
+        ...formattedEntries,
+      ]);
+    }
+  };
+
   return (
     <ExperimentalDesignContext.Provider
       value={{
         experimentalDesign,
         setExperimentalDesign,
         updateExperimentalDesign,
+        updateExperimentalDesignWithMultipleEntries,
       }}
     >
       {children}

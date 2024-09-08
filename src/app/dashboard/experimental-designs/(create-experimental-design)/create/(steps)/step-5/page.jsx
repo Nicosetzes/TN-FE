@@ -1,14 +1,18 @@
 "use client";
 
+import ExperimentalDesignBreadcrumb from "@/components/experimentalDesignBreadcrumb/ExperimentalDesignBreadcrumb";
 import ExplanatoryVariableContainer from "@/components/explanatoryVariableContainer/page";
+import { explanatoryVariableLevelsFormSchema } from "@/utils/definitions";
 import { useExperimentalDesign } from "@/context/ExperimentalDesignContext";
 import { ArrowRight } from "@/components/icons/ArrowRight";
 import { usePathname, useRouter } from "next/navigation";
 import { ArrowLeft } from "@/components/icons/ArrowLeft";
 import { useForm, FormProvider } from "react-hook-form";
+import { zodResolver } from "@hookform/resolvers/zod";
+import { toastFormError } from "@/utils/alerts";
+import { useEffect, useState } from "react";
 import styles from "./styles.module.css";
 import { motion } from "framer-motion";
-import { useEffect } from "react";
 import Link from "next/link";
 
 const CreateExperimentalDesignStepFive = () => {
@@ -19,17 +23,23 @@ const CreateExperimentalDesignStepFive = () => {
 
   const { experimentalDesign, setExperimentalDesign } = useExperimentalDesign();
 
-  const methods = useForm();
+  const methods = useForm({
+    resolver: zodResolver(explanatoryVariableLevelsFormSchema),
+  });
+
+  const validateForm = async () => {
+    const isFormValidated = await methods.trigger();
+
+    if (!isFormValidated) {
+      toastFormError(3000);
+      return;
+    }
+
+    // Solo llamar a handleSubmit si la validación es exitosa
+    methods.handleSubmit(onSubmit)();
+  };
 
   const onSubmit = (data) => {
-    console.log("Data recibida en onSubmit:", data);
-
-    // Verificamos el contenido de experimentalDesign antes de mapear
-    console.log(
-      "Experimental Design antes de la actualización:",
-      experimentalDesign
-    );
-
     const updatedExperimentalDesign = experimentalDesign.map((item) => {
       console.log("Analizando item:", item);
 
@@ -80,14 +90,12 @@ const CreateExperimentalDesignStepFive = () => {
   };
 
   useEffect(() => {
-    console.log("Chequeo si el paso ya se confirmó");
     if (experimentalDesign.length) {
       const haveValuesBeenDeclared = experimentalDesign.filter(
         (item) => Number(item.step) === currentStep - 1
       );
 
       if (haveValuesBeenDeclared.length) {
-        console.log("El paso ya se había confirmado");
         const { value } = haveValuesBeenDeclared.at(0);
         console.log(value);
         value.forEach(({ levels }) => {
@@ -104,9 +112,11 @@ const CreateExperimentalDesignStepFive = () => {
     ({ step }) => step == currentStep - 1
   );
 
-  console.log(explanatory_variables);
-
-  console.log(experimentalDesign);
+  // const initialValues = explanatory_variables.length
+  //   ? explanatory_variables
+  //       .at(0)
+  //       .value.map((variable) => variable.levels.map((lvl) => lvl.value))
+  //   : [];
 
   return (
     <motion.div
@@ -126,6 +136,11 @@ const CreateExperimentalDesignStepFive = () => {
       >
         Siguiente <ArrowRight size={36} />
       </Link>
+      <ExperimentalDesignBreadcrumb
+        pathname={pathname}
+        step={currentStep}
+        isOverviewHidden={!experimentalDesign.length}
+      />
       {!explanatory_variables.length ? (
         <div className={styles.containerError}>
           <div>Aún no se han definido las variables explicatorias</div>
@@ -137,7 +152,7 @@ const CreateExperimentalDesignStepFive = () => {
             }}
             className="button-primary"
           >
-            Ir
+            Ir al paso anterior
           </Link>
         </div>
       ) : (
@@ -155,12 +170,13 @@ const CreateExperimentalDesignStepFive = () => {
                 />
               ))}
             </div>
-            <input
-              type="submit"
-              value="Confirmar"
-              // disabled={!firstLevel || !secondLevel}
+            <button
+              value="Enviar"
               className="button-primary"
-            />
+              onClick={validateForm}
+            >
+              Enviar
+            </button>
           </form>
         </FormProvider>
       )}

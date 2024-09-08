@@ -43,6 +43,10 @@ a {
   padding: 0.5rem 1.75rem;
 }
 
-.button-primary:disabled {
+.button-primary.inactive {
   background-color: #333533;
+}
+
+.toast-progress-dark {
+  background: rgb(187 186 186) !important;
 }

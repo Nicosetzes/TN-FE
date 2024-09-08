@@ -1,9 +1,13 @@
 "use client";
 
+import ExperimentalDesignBreadcrumb from "@/components/experimentalDesignBreadcrumb/ExperimentalDesignBreadcrumb";
 import { useExperimentalDesign } from "@/context/ExperimentalDesignContext";
+import { responseVariableFormSchema } from "@/utils/definitions";
 import { ArrowRight } from "@/components/icons/ArrowRight";
 import { usePathname, useRouter } from "next/navigation";
 import { ArrowLeft } from "@/components/icons/ArrowLeft";
+import { zodResolver } from "@hookform/resolvers/zod";
+import { toastFormError } from "@/utils/alerts";
 import { useForm } from "react-hook-form";
 import styles from "./styles.module.css";
 import { motion } from "framer-motion";
@@ -19,7 +23,27 @@ const CreateExperimentalDesignStepThree = () => {
   const { experimentalDesign, updateExperimentalDesign } =
     useExperimentalDesign();
 
-  const { handleSubmit, register, setValue, watch } = useForm();
+  const {
+    formState: { errors },
+    handleSubmit,
+    register,
+    setValue,
+    trigger,
+    watch,
+  } = useForm({
+    resolver: zodResolver(responseVariableFormSchema),
+  });
+
+  const validateForm = async () => {
+    const isFormValidated = await trigger();
+
+    if (!isFormValidated) {
+      toastFormError(3000);
+      return;
+    }
+
+    handleSubmit(onSubmit)();
+  };
 
   const onSubmit = ({ response_variable }) => {
     updateExperimentalDesign({
@@ -69,14 +93,23 @@ const CreateExperimentalDesignStepThree = () => {
       >
         Siguiente <ArrowRight size={36} />
       </Link>
+      <ExperimentalDesignBreadcrumb
+        pathname={pathname}
+        step={currentStep}
+        isOverviewHidden={!experimentalDesign.length}
+      />
       <form onSubmit={handleSubmit(onSubmit)} className={styles.form}>
         <input {...register("response_variable")} placeholder="Medición" />
-        <input
-          type="submit"
+        <div className={styles.formCustomError}>
+          {errors?.response_variable?.message}
+        </div>
+        <button
           value="Enviar"
-          disabled={!watchResponseVariable}
           className="button-primary"
-        />
+          onClick={validateForm}
+        >
+          Enviar
+        </button>
       </form>
     </motion.div>
   );

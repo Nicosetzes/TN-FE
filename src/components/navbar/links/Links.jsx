@@ -1,23 +1,26 @@
 "use client";
 
-import { useState } from "react";
-import Image from "next/image";
+import { Hamburger } from "@/components/icons/Hamburger";
+import { useSession } from "@/context/SessionContext";
 import styles from "./styles.module.css";
 import NavLink from "./navLink/NavLink";
-import { Hamburger } from "@/components/icons/Hamburger";
+import { useState } from "react";
 
 const links = [
-  { title: "Home", path: "/" },
+  { title: "Inicio", path: "/" },
   { title: "Dashboard", path: "/dashboard" },
-  { title: "Contact", path: "/contact" },
+  { title: "Contacto", path: "/contact" },
+  { title: "Registrarse", path: "/register" },
 ];
 
 const Links = () => {
   const [open, setOpen] = useState(false);
 
-  // TEMPORARY
-  const session = false;
-  const isAdmin = false;
+  const { userSession, logout } = useSession();
+
+  console.log(userSession);
+
+  // const isAdmin = false; // TEMPORARY
 
   return (
     <>
@@ -25,17 +28,12 @@ const Links = () => {
         {links.map((link) => (
           <NavLink key={link.path} item={link} />
         ))}
-        {session ? (
-          <>
-            {isAdmin && <NavLink item={{ title: "Admin", path: "/admin" }} />}
-            <form action={handleLogout}>
-              <button className={styles.logout} type="submit">
-                Logoutt
-              </button>
-            </form>
-          </>
+        {userSession ? (
+          <button className={styles.logout} onClick={logout}>
+            Logoutt
+          </button>
         ) : (
-          <NavLink item={{ title: "Login", path: "/login" }} />
+          <NavLink item={{ title: "Iniciar sesión", path: "/login" }} />
         )}
       </div>
       <button
@@ -49,17 +47,12 @@ const Links = () => {
         {links.map((link) => (
           <NavLink key={link.path} item={link} />
         ))}
-        {session ? (
-          <>
-            {isAdmin && <NavLink item={{ title: "Admin", path: "/admin" }} />}
-            <form action="">
-              <button className={styles.logout} type="submit">
-                Logoutt
-              </button>
-            </form>
-          </>
+        {userSession ? (
+          <button className={styles.logout} onClick={logout}>
+            Logoutt
+          </button>
         ) : (
-          <NavLink item={{ title: "Login", path: "/login" }} />
+          <NavLink item={{ title: "Iniciar sesión", path: "/login" }} />
         )}
       </div>
     </>

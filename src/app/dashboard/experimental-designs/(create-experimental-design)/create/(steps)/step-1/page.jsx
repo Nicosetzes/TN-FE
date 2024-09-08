@@ -1,8 +1,12 @@
 "use client";
 
+import ExperimentalDesignBreadcrumb from "@/components/experimentalDesignBreadcrumb/ExperimentalDesignBreadcrumb";
 import { useExperimentalDesign } from "@/context/ExperimentalDesignContext";
+import { experimentalDesignNameFormSchema } from "@/utils/definitions";
 import { ArrowRight } from "@/components/icons/ArrowRight";
 import { usePathname, useRouter } from "next/navigation";
+import { zodResolver } from "@hookform/resolvers/zod";
+import { toastFormError } from "@/utils/alerts";
 import { useForm } from "react-hook-form";
 import styles from "./styles.module.css";
 import { motion } from "framer-motion";
@@ -18,7 +22,27 @@ const CreateExperimentalDesignStepOne = () => {
   const { experimentalDesign, updateExperimentalDesign } =
     useExperimentalDesign();
 
-  const { handleSubmit, register, setValue, watch } = useForm();
+  const {
+    formState: { errors },
+    handleSubmit,
+    register,
+    setValue,
+    trigger,
+    watch,
+  } = useForm({
+    resolver: zodResolver(experimentalDesignNameFormSchema),
+  });
+
+  const validateForm = async () => {
+    const isFormValidated = await trigger();
+
+    if (!isFormValidated) {
+      toastFormError(3000);
+      return;
+    }
+
+    handleSubmit(onSubmit)();
+  };
 
   const onSubmit = ({ experimental_design_name }) => {
     updateExperimentalDesign({
@@ -48,6 +72,8 @@ const CreateExperimentalDesignStepOne = () => {
 
   console.log(experimentalDesign);
 
+  console.log(errors);
+
   return (
     <motion.div
       initial={{ opacity: 0 }}
@@ -60,14 +86,23 @@ const CreateExperimentalDesignStepOne = () => {
       >
         Siguiente <ArrowRight size={36} />
       </Link>
+      <ExperimentalDesignBreadcrumb
+        pathname={pathname}
+        step={currentStep}
+        isOverviewHidden={!experimentalDesign.length}
+      />
       <form onSubmit={handleSubmit(onSubmit)} className={styles.form}>
         <input {...register("experimental_design_name")} placeholder="Nombre" />
-        <input
-          type="submit"
+        <div className={styles.formCustomError}>
+          {errors?.experimental_design_name?.message}
+        </div>
+        <button
           value="Enviar"
-          disabled={!watchExperimentalDesignName}
           className="button-primary"
-        />
+          onClick={validateForm}
+        >
+          Enviar
+        </button>
       </form>
     </motion.div>
   );

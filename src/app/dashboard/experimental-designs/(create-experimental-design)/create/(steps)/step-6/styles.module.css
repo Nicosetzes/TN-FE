@@ -1,22 +1,24 @@
 .arrowLeft {
   align-items: center;
+  bottom: 1rem;
   display: flex;
+  left: 1rem;
   position: absolute;
-  left: 0;
-  top: 0;
 }
 .arrowRight {
   align-items: center;
+  bottom: 1rem;
   display: flex;
   position: absolute;
-  right: 0;
-  top: 0;
+  right: 1rem;
 }
 
 .container {
   background-color: rgb(4, 17, 17);
+  border: #fff 1.5px solid;
   display: flex;
-  justify-content: center;
+  flex-direction: column;
+  margin: 5rem auto;
   min-height: 500px;
   padding: 3rem 0;
   position: relative;
@@ -26,15 +28,22 @@
   border: #fff 1px solid;
   display: flex;
   flex-direction: column;
+  margin: 3rem auto;
   max-width: 400px;
   padding: 2.25rem 1.75rem;
   width: 100%;
 }
 
-.form input {
-  margin: 0.75rem 0;
+.form button {
+  margin: 1rem 0 0 0;
 }
 
-.form input[type="submit"] {
-  margin: 1rem 0 0 0;
+.form input {
+  width: 100%;
+}
+
+.formCustomError {
+  color: #ff5555;
+  font-size: 0.85rem;
+  margin: 0.75rem 0;
 }

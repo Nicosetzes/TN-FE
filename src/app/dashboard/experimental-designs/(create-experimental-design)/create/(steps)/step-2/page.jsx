@@ -1,7 +1,8 @@
 "use client";
 
-import { useExperimentalDesign } from "@/context/ExperimentalDesignContext";
+import ExperimentalDesignBreadcrumb from "@/components/experimentalDesignBreadcrumb/ExperimentalDesignBreadcrumb";
 import ExperimentalModelsList from "@/components/filteredExperimentalModels/ExperimentalModelsList";
+import { useExperimentalDesign } from "@/context/ExperimentalDesignContext";
 import { ArrowRight } from "@/components/icons/ArrowRight";
 import { ArrowLeft } from "@/components/icons/ArrowLeft";
 import { usePathname, useRouter } from "next/navigation";
@@ -120,6 +121,11 @@ const CreateExperimentalDesignStepTwo = () => {
       >
         Siguiente <ArrowRight size={36} />
       </Link>
+      <ExperimentalDesignBreadcrumb
+        pathname={pathname}
+        step={currentStep}
+        isOverviewHidden={!experimentalDesign.length}
+      />
       <form onSubmit={handleSubmit(onSubmit)} className={styles.form}>
         <input
           {...register("experimental_model")}

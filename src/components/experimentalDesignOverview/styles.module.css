@@ -3,17 +3,33 @@
   flex-wrap: wrap;
   gap: 2rem;
   justify-content: center;
+  padding: 2.5rem;
 }
 
 .container ul {
+  align-items: flex-start;
+  display: flex;
+  flex-direction: column;
   list-style: none;
+  margin: 0 auto;
+  max-width: fit-content;
+}
+
+.container ul li {
+  margin: 0.25rem 0;
+}
+
+.container a {
+  margin: 1rem auto 0 auto;
+  max-width: 200px;
 }
 
 .category {
   border: #fff 1px solid;
   display: flex;
   flex-direction: column;
+  justify-content: center;
   max-width: 400px;
-  padding: 0.5rem;
+  padding: 1.75rem 1.25rem;
   width: 100%;
 }

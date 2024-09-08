@@ -1,14 +1,29 @@
+.alertCircle {
+  flex-shrink: 0;
+  margin: 0 0.5rem 0 0;
+}
+
 .container {
   display: flex;
   flex-basis: 100%;
   flex-direction: column;
-  margin: 0 auto;
+  margin: 0 1rem;
   max-width: 300px;
 }
 
-.formRow {
+.containerRow {
   display: flex;
   margin: 0.5rem 0;
+}
+
+.container input {
+  width: 100%;
+}
+
+.containerCustomError {
+  color: #ff5555;
+  font-size: 0.85rem;
+  margin: 0 0 0 40px; /* 40 px es el espacio que ocupa el svg */
 }
 
 .header {
@@ -19,12 +34,9 @@
   margin: 1rem 0;
 }
 
-.plusSign,
-.minusSign {
+.minusSign,
+.plusSign {
   cursor: pointer;
-  margin: 0 0.5rem 0 0;
-}
-
-.alertCircle {
+  flex-shrink: 0;
   margin: 0 0.5rem 0 0;
 }

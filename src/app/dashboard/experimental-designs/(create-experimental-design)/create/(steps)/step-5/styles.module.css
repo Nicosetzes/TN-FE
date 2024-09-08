@@ -1,37 +1,50 @@
 .arrowLeft {
   align-items: center;
+  bottom: 1rem;
   display: flex;
+  flex-shrink: 0;
+  left: 1rem;
   position: absolute;
-  left: 0;
-  top: 0;
 }
 .arrowRight {
   align-items: center;
+  bottom: 1rem;
   display: flex;
+  flex-shrink: 0;
   position: absolute;
-  right: 0;
-  top: 0;
+  right: 1rem;
 }
 
 .container {
   background-color: rgb(4, 17, 17);
+  border: #fff 1.5px solid;
   display: flex;
-  justify-content: center;
+  flex-direction: column;
+  margin: 5rem auto;
   min-height: 500px;
   padding: 3rem 0;
   position: relative;
 }
 
-.containerError > div {
-  margin: 0 0 1.25rem 0;
+.containerError {
+  display: flex;
+  flex-direction: column;
+  gap: 1.5rem;
+  margin: 3rem auto;
+  padding: 1.5rem;
+}
+
+.containerError a {
+  margin: 0 auto;
+  max-width: 250px;
 }
 
 .form {
   border: #fff 1px solid;
   display: flex;
   flex-direction: column;
+  margin: 3rem auto;
   padding: 2.25rem 1.75rem;
-  width: 100%;
 }
 
 .form > div {
@@ -40,8 +53,6 @@
   flex-wrap: wrap;
 }
 
-.form input[type="submit"] {
-  margin: 1rem auto 0 auto;
-  max-width: 250px;
-  width: 100%;
+.form button {
+  margin: 1rem 0 0 0;
 }

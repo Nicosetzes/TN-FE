@@ -1,0 +1,19 @@
+.container {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  margin: 1rem auto;
+}
+
+.link {
+  align-items: center;
+  display: flex;
+}
+
+.link.active {
+  text-decoration: underline;
+}
+
+.link span {
+  margin: 0 0.5rem;
+}
