@@ -1,8 +1,7 @@
 "use client";
 
 import { createContext, useContext, useEffect, useState } from "react";
-import { useRouter } from "next/navigation";
-import Cookies from "js-cookie";
+import { useRouter, useSearchParams } from "next/navigation";
 
 const SessionContext = createContext();
 
@@ -10,17 +9,18 @@ export const useSession = () => useContext(SessionContext);
 
 export const SessionProvider = ({ children }) => {
   const router = useRouter();
+  const searchParams = useSearchParams();
 
   const [userSession, setUserSession] = useState(null);
-  const [error, setError] = useState(null);
+  // const [error, setError] = useState(null);
 
   // Utilizo useEffect para intentar obtener datos de sesión desde localStorage
 
   useEffect(() => {
-    const token = Cookies.get("token");
-    console.log(token);
-    if (token) {
-      // Si hay un token en las cookies, realizo solicitud al backend para verificar su validez y obtener los datos del usuario
+    const userSession = JSON.parse(localStorage.getItem("userSession"));
+    console.log(userSession);
+    if (userSession?.token) {
+      // Si hay un token en localStorage, realizo solicitud al backend para verificar su validez y obtener los datos del usuario
 
       // fetch("/api/get-user-info", {
       //   method: "GET",
@@ -65,20 +65,25 @@ export const SessionProvider = ({ children }) => {
           data: { first_name, last_name, token },
         } = response;
         setUserSession({ first_name, last_name, token });
-        Cookies.set("token", token, { path: "/" });
+        localStorage.setItem(
+          "userSession",
+          JSON.stringify({
+            token,
+          })
+        );
       }
     }
   }, []);
 
-  const handleAuthError = (message) => {
-    // Ver mensajes de error después de obtener response de Martín
-    if (message === "Token expired" || message === "Invalid token") {
-      logout();
-      setError(message);
-    } else {
-      setError("Un error inesperado ha ocurrido");
-    }
-  };
+  // const handleAuthError = (message) => {
+  //   // Ver mensajes de error después de obtener response de Martín
+  //   if (message === "Token expired" || message === "Invalid token") {
+  //     logout();
+  //     setError(message);
+  //   } else {
+  //     setError("Un error inesperado ha ocurrido");
+  //   }
+  // };
 
   const login = (sessionData) => {
     setUserSession({
@@ -87,12 +92,21 @@ export const SessionProvider = ({ children }) => {
       token: sessionData.token,
       // Puede que se guarde más información en el futoro, ej: role
     });
-    Cookies.set("token", sessionData.token, { path: "/" });
-    setError(null); // Limpio errores
+    localStorage.setItem(
+      "userSession",
+      JSON.stringify({
+        token: sessionData.token,
+      })
+    );
+    const redirect = searchParams.get("redirect"); // Averiguo si se llegó a /login debido a ProtectedRoute
+    if (redirect === "true") router.back();
+    // else router.push("/profile");
+
+    // setError(null); // Limpio errores
   };
 
   const logout = () => {
-    Cookies.remove("token", { path: "/" }); // Elimino la cookie
+    localStorage.removeItem("userSession"); // Borro la session de localStorage
     setUserSession(null); // Borro la session en el FE
     router.push("/login");
   };
@@ -103,7 +117,7 @@ export const SessionProvider = ({ children }) => {
         userSession,
         login,
         logout,
-        error,
+        // error,
       }}
     >
       {children}

@@ -1,6 +1,7 @@
 import { Suspense } from "react";
 import styles from "./styles.module.css";
 import UserInformation from "@/components/userInformation/page";
+import ProtectedRoute from "@/components/protectedRoute/ProtectedRoute";
 
 // DATA FETCHING FROM AN API
 
@@ -21,7 +22,7 @@ const SingleExperimentalDesignPage = async ({ params, searchParams }) => {
   );
 
   return (
-    <>
+    <ProtectedRoute>
       <div>Single experimental design page</div>
       <div className={styles.container}>
         <Suspense fallback={<div>Please wait...</div>}>
@@ -35,7 +36,7 @@ const SingleExperimentalDesignPage = async ({ params, searchParams }) => {
           </div>
         </div>
       </div>
-    </>
+    </ProtectedRoute>
   );
 };
 

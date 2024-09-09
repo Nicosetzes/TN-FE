@@ -1,9 +1,10 @@
+import ProtectedRoute from "@/components/protectedRoute/ProtectedRoute";
 import Link from "next/link";
 import styles from "./styles.module.css";
 
 const ExperimentalDesignsPage = () => {
   return (
-    <>
+    <ProtectedRoute>
       <Link href="/dashboard/experimental-designs/1">
         Diseño experimental 1
       </Link>
@@ -15,7 +16,7 @@ const ExperimentalDesignsPage = () => {
           Crear nuevo
         </Link>
       </div>
-    </>
+    </ProtectedRoute>
   );
 };
 

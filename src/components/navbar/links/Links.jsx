@@ -29,13 +29,17 @@ const Links = () => {
           <NavLink key={link.path} item={link} />
         ))}
         {userSession ? (
-          <button className={styles.logout} onClick={logout}>
-            Logoutt
-          </button>
+          <>
+            <NavLink item={{ title: "Mi perfil", path: "/profile" }} />
+            <button className={styles.logout} onClick={logout}>
+              Cerrar sesión
+            </button>
+          </>
         ) : (
           <NavLink item={{ title: "Iniciar sesión", path: "/login" }} />
         )}
       </div>
+
       <button
         className={styles.menuButton}
         onClick={() => setOpen((prev) => !prev)}
@@ -49,7 +53,7 @@ const Links = () => {
         ))}
         {userSession ? (
           <button className={styles.logout} onClick={logout}>
-            Logoutt
+            Cerrar sesión
           </button>
         ) : (
           <NavLink item={{ title: "Iniciar sesión", path: "/login" }} />
