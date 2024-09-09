@@ -1,7 +1,7 @@
 "use client";
 
 import { createContext, useContext, useEffect, useState } from "react";
-import { useRouter, useSearchParams } from "next/navigation";
+import { useRouter } from "next/navigation";
 
 const SessionContext = createContext();
 
@@ -9,7 +9,6 @@ export const useSession = () => useContext(SessionContext);
 
 export const SessionProvider = ({ children }) => {
   const router = useRouter();
-  const searchParams = useSearchParams();
 
   const [userSession, setUserSession] = useState(null);
   // const [error, setError] = useState(null);
@@ -98,8 +97,8 @@ export const SessionProvider = ({ children }) => {
         token: sessionData.token,
       })
     );
-    const redirect = searchParams.get("redirect"); // Averiguo si se llegó a /login debido a ProtectedRoute
-    if (redirect === "true") router.back();
+    // const redirect = searchParams.get("redirect"); // Error en producción
+    // if (redirect === "true") router.back();
     // else router.push("/profile");
 
     // setError(null); // Limpio errores
