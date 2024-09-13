@@ -18,6 +18,47 @@ const CreateExperimentalDesignPage = () => {
     console.log(data);
   };
 
+  const experimentalDesignWithoutSteps = experimentalDesign.map(
+    ({ key, value }) => {
+      return { key, value };
+    }
+  );
+
+  const experimentalDesignAsAnObject = {
+    name: experimentalDesignWithoutSteps
+      .filter(({ key }) => key == "name")
+      ?.at(0)?.value,
+    experimental_model: experimentalDesignWithoutSteps
+      .filter(({ key }) => key == "experimental_model")
+      ?.at(0)?.value,
+    response_variable: experimentalDesignWithoutSteps
+      .filter(({ key }) => key == "response_variable")
+      ?.at(0)?.value,
+    explanatory_variables: experimentalDesignWithoutSteps
+      .filter(({ key }) => key == "explanatory_variables")
+      ?.at(0)
+      ?.value.map(({ value, levels }) => {
+        return {
+          value,
+          levels: levels.map((level) => {
+            return level.value;
+          }),
+        };
+      }),
+    sampling_unit: experimentalDesignWithoutSteps
+      .filter(({ key }) => key == "sampling_unit")
+      ?.at(0)?.value,
+    biological_replicates: experimentalDesignWithoutSteps
+      .filter(({ key }) => key == "biological_replicates")
+      ?.at(0)?.value,
+    technical_replicates: experimentalDesignWithoutSteps
+      .filter(({ key }) => key == "technical_replicates")
+      ?.at(0)?.value,
+    total_repetitions: experimentalDesignWithoutSteps
+      .filter(({ key }) => key == "total_repetitions")
+      ?.at(0)?.value,
+  };
+
   return (
     <div className={styles.container}>
       {!experimentalDesign.length ? (
@@ -38,6 +79,7 @@ const CreateExperimentalDesignPage = () => {
           <ExperimentalDesignBreadcrumb />
           <ExperimentalDesignOverview
             data={experimentalDesign}
+            experimentalDesign={experimentalDesignAsAnObject}
             submit={submitExperimentalDesign}
           />
         </>

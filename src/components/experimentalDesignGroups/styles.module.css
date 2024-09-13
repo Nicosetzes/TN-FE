@@ -1,0 +1,28 @@
+.body {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+}
+
+.body > div {
+  margin: 0.5rem;
+}
+
+.experimentalGroupsContainer {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.75rem;
+  justify-content: space-between;
+  padding: 1rem;
+}
+
+.experimentalGroup {
+  border: #c2bdbd 1px solid;
+  max-width: 300px;
+  padding: 1.75rem;
+}
+
+.title {
+  font-weight: bold;
+  margin: 0 0 1rem 0;
+}

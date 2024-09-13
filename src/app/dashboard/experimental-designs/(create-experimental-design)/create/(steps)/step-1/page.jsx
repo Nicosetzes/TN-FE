@@ -44,11 +44,11 @@ const CreateExperimentalDesignStepOne = () => {
     handleSubmit(onSubmit)();
   };
 
-  const onSubmit = ({ experimental_design_name }) => {
+  const onSubmit = ({ name }) => {
     updateExperimentalDesign({
-      key: "experimental_design_name",
+      key: "name",
       step: currentStep,
-      value: experimental_design_name,
+      value: name,
     });
     router.push("/dashboard/experimental-designs/create/step-2");
   };
@@ -68,7 +68,7 @@ const CreateExperimentalDesignStepOne = () => {
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [pathname]);
 
-  const watchExperimentalDesignName = watch("experimental_design_name");
+  // const watchName = watch("name");
 
   console.log(experimentalDesign);
 
@@ -92,10 +92,8 @@ const CreateExperimentalDesignStepOne = () => {
         isOverviewHidden={!experimentalDesign.length}
       />
       <form onSubmit={handleSubmit(onSubmit)} className={styles.form}>
-        <input {...register("experimental_design_name")} placeholder="Nombre" />
-        <div className={styles.formCustomError}>
-          {errors?.experimental_design_name?.message}
-        </div>
+        <input {...register("name")} placeholder="Nombre" />
+        <div className={styles.formCustomError}>{errors?.name?.message}</div>
         <button
           value="Enviar"
           className="button-primary"

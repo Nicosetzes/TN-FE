@@ -34,7 +34,7 @@ export const SignUpFormSchema = z.object({
 });
 
 export const experimentalDesignNameFormSchema = z.object({
-  experimental_design_name: z
+  name: z
     .string()
     .min(1, { message: "Ingrese el nombre de su diseño experimental" }),
 });
