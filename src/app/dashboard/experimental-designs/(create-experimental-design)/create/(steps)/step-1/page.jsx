@@ -6,7 +6,7 @@ import { experimentalDesignNameFormSchema } from "@/utils/definitions";
 import { ArrowRight } from "@/components/icons/ArrowRight";
 import { usePathname, useRouter } from "next/navigation";
 import { zodResolver } from "@hookform/resolvers/zod";
-import { toastFormError } from "@/utils/alerts";
+import { toastError } from "@/utils/alerts";
 import { useForm } from "react-hook-form";
 import styles from "./styles.module.css";
 import { motion } from "framer-motion";
@@ -37,7 +37,7 @@ const CreateExperimentalDesignStepOne = () => {
     const isFormValidated = await trigger();
 
     if (!isFormValidated) {
-      toastFormError(3000);
+      toastError(3000, "Error en el formulario", "Intente nuevamente");
       return;
     }
 

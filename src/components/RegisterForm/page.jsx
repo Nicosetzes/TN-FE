@@ -1,6 +1,6 @@
 "use client";
 
-import { SignUpFormSchema } from "@/utils/definitions";
+import { RegisterFormSchema } from "@/utils/definitions";
 import { usePathname, useRouter } from "next/navigation";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { UserProfile } from "../icons/UserProfile";
@@ -12,7 +12,7 @@ import { useState } from "react";
 import Image from "next/image";
 import Link from "next/link";
 
-const SignUpForm = () => {
+const RegisterForm = () => {
   const router = useRouter();
 
   const [preview, setPreview] = useState();
@@ -26,7 +26,7 @@ const SignUpForm = () => {
     register,
     setValue,
   } = useForm({
-    resolver: zodResolver(SignUpFormSchema),
+    resolver: zodResolver(RegisterFormSchema),
   });
 
   const onSubmit = ({ first_name, last_name, email, password, avatar }) => {
@@ -108,4 +108,4 @@ const SignUpForm = () => {
   );
 };
 
-export default SignUpForm;
+export default RegisterForm;

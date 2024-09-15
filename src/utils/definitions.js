@@ -1,6 +1,6 @@
 import { z } from "zod";
 
-export const SignInFormSchema = z.object({
+export const LoginFormSchema = z.object({
   username: z.string().email({ message: "Introduzca un email válido" }).trim(),
   password: z
     .string()
@@ -10,7 +10,7 @@ export const SignInFormSchema = z.object({
     .trim(),
 });
 
-export const SignUpFormSchema = z.object({
+export const RegisterFormSchema = z.object({
   first_name: z.string().min(1, { message: "Ingrese su nombre" }).trim(),
   last_name: z.string().min(1, { message: "Ingrese su apellido" }).trim(),
   email: z.string().email({ message: "Ingrese un email válido" }).trim(),

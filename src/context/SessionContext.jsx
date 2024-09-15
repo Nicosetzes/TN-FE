@@ -2,6 +2,7 @@
 
 import { createContext, useContext, useEffect, useState } from "react";
 import { useRouter } from "next/navigation";
+import { toastInformation, toastSuccess } from "@/utils/alerts";
 
 const SessionContext = createContext();
 
@@ -11,13 +12,14 @@ export const SessionProvider = ({ children }) => {
   const router = useRouter();
 
   const [userSession, setUserSession] = useState(null);
-  // const [error, setError] = useState(null);
+  const [contextLoader, setContextLoader] = useState(true);
+  const [deniedRoute, setDeniedRoute] = useState(null);
 
   // Utilizo useEffect para intentar obtener datos de sesión desde localStorage
 
   useEffect(() => {
+    console.log("valido sesión");
     const userSession = JSON.parse(localStorage.getItem("userSession"));
-    console.log(userSession);
     if (userSession?.token) {
       // Si hay un token en localStorage, realizo solicitud al backend para verificar su validez y obtener los datos del usuario
 
@@ -70,26 +72,22 @@ export const SessionProvider = ({ children }) => {
             token,
           })
         );
+        toastInformation(
+          3000,
+          "Sesión validada",
+          `Bienvenido de nuevo, ${first_name}`
+        );
       }
     }
+    setContextLoader(false);
   }, []);
-
-  // const handleAuthError = (message) => {
-  //   // Ver mensajes de error después de obtener response de Martín
-  //   if (message === "Token expired" || message === "Invalid token") {
-  //     logout();
-  //     setError(message);
-  //   } else {
-  //     setError("Un error inesperado ha ocurrido");
-  //   }
-  // };
 
   const login = (sessionData) => {
     setUserSession({
       first_name: sessionData.first_name,
       last_name: sessionData.last_name,
       token: sessionData.token,
-      // Puede que se guarde más información en el futoro, ej: role
+      // Puede que se guarde más información en el futuro, ej: role
     });
     localStorage.setItem(
       "userSession",
@@ -97,26 +95,33 @@ export const SessionProvider = ({ children }) => {
         token: sessionData.token,
       })
     );
-    // const redirect = searchParams.get("redirect"); // Error en producción
-    // if (redirect === "true") router.back();
-    // else router.push("/profile");
+    console.log(deniedRoute);
+    const targetRoute = deniedRoute || "/profile"; // Guardo la ruta negada al usuario
+    setDeniedRoute(null); // Limpio deniedRoute
+    router.replace(targetRoute); // Ejecuto la redirección
 
-    // setError(null); // Limpio errores
+    toastSuccess(
+      3000,
+      "Inicio de sesión exitoso",
+      `Bienvenido ${sessionData.first_name}`
+    );
   };
 
   const logout = () => {
     localStorage.removeItem("userSession"); // Borro la session de localStorage
     setUserSession(null); // Borro la session en el FE
-    router.push("/login");
+    router.replace("/login");
+    toastInformation(3000, "Ha cerrado la sesión", `¡Vuelva pronto!`);
   };
 
   return (
     <SessionContext.Provider
       value={{
-        userSession,
+        contextLoader,
         login,
         logout,
-        // error,
+        setDeniedRoute,
+        userSession,
       }}
     >
       {children}

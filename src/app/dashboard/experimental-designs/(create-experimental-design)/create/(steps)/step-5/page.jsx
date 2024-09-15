@@ -9,7 +9,7 @@ import { usePathname, useRouter } from "next/navigation";
 import { ArrowLeft } from "@/components/icons/ArrowLeft";
 import { useForm, FormProvider } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
-import { toastFormError } from "@/utils/alerts";
+import { toastError } from "@/utils/alerts";
 import { useEffect, useState } from "react";
 import styles from "./styles.module.css";
 import { motion } from "framer-motion";
@@ -31,7 +31,7 @@ const CreateExperimentalDesignStepFive = () => {
     const isFormValidated = await methods.trigger();
 
     if (!isFormValidated) {
-      toastFormError(3000);
+      toastError(3000, "Error en el formulario", "Intente nuevamente");
       return;
     }
 

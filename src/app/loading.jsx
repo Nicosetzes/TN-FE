@@ -1,5 +1,9 @@
+"use client";
+
+import OvalSpinner from "@/components/spinners/OvalSpinner";
+
 const Loading = () => {
-  return <div>Loading...</div>;
+  return <OvalSpinner />;
 };
 
 export default Loading;

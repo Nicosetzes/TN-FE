@@ -10,7 +10,7 @@ import { ArrowLeft } from "@/components/icons/ArrowLeft";
 import { MinusSign } from "@/components/icons/MinusSign";
 import { PlusSign } from "@/components/icons/PlusSign";
 import { zodResolver } from "@hookform/resolvers/zod";
-import { toastFormError } from "@/utils/alerts";
+import { toastError } from "@/utils/alerts";
 import { useEffect, useState } from "react";
 import { useForm } from "react-hook-form";
 import styles from "./styles.module.css";
@@ -46,7 +46,7 @@ const CreateExperimentalDesignStepFour = () => {
     console.log(errors);
 
     if (!isFormValidated) {
-      toastFormError(3000);
+      toastError(3000, "Error en el formulario", "Intente nuevamente");
       return;
     }
 

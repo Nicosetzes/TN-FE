@@ -1,11 +1,13 @@
 "use client";
 
+import OvalSpinner from "@/components/spinners/OvalSpinner";
 import LoginForm from "@/components/loginForm/LoginForm";
 import { useSession } from "@/context/SessionContext";
 
 const LoginPage = () => {
-  const { userSession, logout } = useSession();
+  const { contextLoader, userSession, logout } = useSession();
 
+  if (contextLoader) return <OvalSpinner />;
   return userSession ? (
     <>
       <div>Usted ya está logueado!</div>

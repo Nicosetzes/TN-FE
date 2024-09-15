@@ -10,15 +10,12 @@ const links = [
   { title: "Inicio", path: "/" },
   { title: "Dashboard", path: "/dashboard" },
   { title: "Contacto", path: "/contact" },
-  { title: "Registrarse", path: "/register" },
 ];
 
 const Links = () => {
   const [open, setOpen] = useState(false);
 
   const { userSession, logout } = useSession();
-
-  console.log(userSession);
 
   // const isAdmin = false; // TEMPORARY
 
@@ -36,7 +33,10 @@ const Links = () => {
             </button>
           </>
         ) : (
-          <NavLink item={{ title: "Iniciar sesión", path: "/login" }} />
+          <>
+            <NavLink item={{ title: "Iniciar sesión", path: "/login" }} />
+            <NavLink item={{ title: "Registrarse", path: "/register" }} />
+          </>
         )}
       </div>
 
