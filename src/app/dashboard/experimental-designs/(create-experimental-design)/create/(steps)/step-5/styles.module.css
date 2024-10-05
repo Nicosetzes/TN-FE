@@ -40,11 +40,15 @@
 }
 
 .form {
+  background-color: rgb(34, 15, 119);
   border: #fff 1px solid;
+  border-radius: 0.75rem;
   display: flex;
   flex-direction: column;
   margin: 3rem auto;
+  max-width: 400px;
   padding: 2.25rem 1.75rem;
+  width: 100%;
 }
 
 .form > div {
@@ -55,4 +59,9 @@
 
 .form button {
   margin: 1rem 0 0 0;
+}
+
+.form input {
+  min-height: 30px;
+  width: 100%;
 }

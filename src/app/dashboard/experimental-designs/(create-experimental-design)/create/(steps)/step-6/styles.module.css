@@ -25,7 +25,9 @@
 }
 
 .form {
+  background-color: rgb(34, 15, 119);
   border: #fff 1px solid;
+  border-radius: 0.75rem;
   display: flex;
   flex-direction: column;
   margin: 3rem auto;
@@ -39,6 +41,7 @@
 }
 
 .form input {
+  min-height: 30px;
   width: 100%;
 }
 

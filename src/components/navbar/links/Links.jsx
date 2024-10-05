@@ -8,7 +8,6 @@ import { useState } from "react";
 
 const links = [
   { title: "Inicio", path: "/" },
-  { title: "Dashboard", path: "/dashboard" },
   { title: "Contacto", path: "/contact" },
 ];
 
@@ -27,6 +26,7 @@ const Links = () => {
         ))}
         {userSession ? (
           <>
+            <NavLink item={{ title: "Dashboard", path: "/dashboard" }} />
             <NavLink item={{ title: "Mi perfil", path: "/profile" }} />
             <button className={styles.logout} onClick={logout}>
               Cerrar sesión
@@ -39,7 +39,6 @@ const Links = () => {
           </>
         )}
       </div>
-
       <button
         className={styles.menuButton}
         onClick={() => setOpen((prev) => !prev)}
@@ -52,11 +51,18 @@ const Links = () => {
           <NavLink key={link.path} item={link} />
         ))}
         {userSession ? (
-          <button className={styles.logout} onClick={logout}>
-            Cerrar sesión
-          </button>
+          <>
+            <NavLink item={{ title: "Dashboard", path: "/dashboard" }} />
+            <NavLink item={{ title: "Mi perfil", path: "/profile" }} />
+            <button className={styles.logout} onClick={logout}>
+              Cerrar sesión
+            </button>
+          </>
         ) : (
-          <NavLink item={{ title: "Iniciar sesión", path: "/login" }} />
+          <>
+            <NavLink item={{ title: "Iniciar sesión", path: "/login" }} />
+            <NavLink item={{ title: "Registrarse", path: "/register" }} />
+          </>
         )}
       </div>
     </>

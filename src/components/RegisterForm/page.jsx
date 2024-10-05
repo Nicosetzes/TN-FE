@@ -5,6 +5,7 @@ import { usePathname, useRouter } from "next/navigation";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { UserProfile } from "../icons/UserProfile";
 import { toastFormError } from "@/utils/alerts";
+import { toastSuccess } from "@/utils/alerts";
 import { useForm } from "react-hook-form";
 import styles from "./styles.module.css";
 import { motion } from "framer-motion";
@@ -29,26 +30,87 @@ const RegisterForm = () => {
     resolver: zodResolver(RegisterFormSchema),
   });
 
-  const onSubmit = ({ first_name, last_name, email, password, avatar }) => {
-    const formData = new FormData();
-    formData.append("first_name", first_name);
-    formData.append("last_name", last_name);
-    formData.append("email", email);
-    formData.append("password", password);
-    if (avatar) formData.append("avatar", avatar);
+  const onSubmit = async ({
+    first_name,
+    last_name,
+    email,
+    password,
+    avatar,
+  }) => {
+    try {
+      const formData = new FormData();
+      formData.append("first_name", first_name);
+      formData.append("last_name", last_name);
+      formData.append("email", email);
+      formData.append("password", password);
+      if (avatar) formData.append("avatar", avatar);
 
-    // const response = await fetch('/api/auth/login', {
-    //   method: 'POST',
-    //   headers: { 'Content-Type': 'application/json' },
-    //   body: JSON.stringify({ email, password }),
-    // })
+      // const apiURL = process.env.NEXT_PUBLIC_API_URL;
 
-    const response = { ok: true }; // temporal
+      // const response = await axios.post(`${apiURL}/api/user/register`, {
+      //   username,
+      //   password,
+      // });
 
-    if (response.ok) {
-      router.push("/login");
-    } else {
-      // Manejar errores
+      // Como uso axios, entiendo que si hubo error (HTTP fuera del rango 200 - 299) va a entrar automáticamente al catch.
+      // Teniendo esto en cuenta, no sería necesario analizar el status de response.
+
+      const response = {
+        status: "success",
+        data: {
+          first_name: "prueba",
+          last_name: "prueba",
+          email: "prueba@prueba.com",
+          avatar: null,
+          avatar_thumbnail: null,
+        },
+        message: "USER_REGISTER_COMPLETED",
+      };
+
+      if (response.status === "success") {
+        // Puede que elimine el if por lo explicado más arriba
+        const {
+          data: { first_name },
+        } = response;
+
+        toastSuccess(
+          3000,
+          "Usuario creado con éxito",
+          `Hola ${first_name}, ya puede iniciar sesión`
+        );
+
+        router.push("/login");
+      }
+    } catch (err) {
+      const response = {
+        status: "error",
+        errors: {
+          first_name: ["The first name field is required."],
+          last_name: ["The last name field is required."],
+          email: ["The email has already been taken."],
+          password: [
+            "The password field must be at least 8 characters.",
+            "The password field format is invalid.",
+          ],
+        },
+      };
+
+      const {
+        errors: { email },
+      } = response;
+
+      if (email)
+        return toastError(
+          3000,
+          "Error al crear usuario",
+          "El apellido es requerido"
+        );
+      else
+        return toastError(
+          3000,
+          "Error inesperado",
+          "Por favor, intente nuevamente"
+        );
     }
   };
 
@@ -66,19 +128,27 @@ const RegisterForm = () => {
 
   return (
     <form onSubmit={handleSubmit(onSubmit)} className={styles.form}>
-      <input {...register("first_name")} placeholder="Nombre" />
+      <div className={styles.formRow}>
+        <input {...register("first_name")} placeholder="Nombre" />
+      </div>
       <div className={styles.formCustomError}>
         {errors?.first_name?.message}
       </div>
-      <input {...register("last_name")} placeholder="Apellido" />
+      <div className={styles.formRow}>
+        <input {...register("last_name")} placeholder="Apellido" />
+      </div>
       <div className={styles.formCustomError}>{errors?.last_name?.message}</div>
-      <input {...register("email")} placeholder="Email" />
+      <div className={styles.formRow}>
+        <input {...register("email")} placeholder="Email" />
+      </div>
       <div className={styles.formCustomError}>{errors?.email?.message}</div>
-      <input
-        {...register("password")}
-        type="password"
-        placeholder="Contraseña"
-      />
+      <div className={styles.formRow}>
+        <input
+          {...register("password")}
+          type="password"
+          placeholder="Contraseña"
+        />
+      </div>
       <div className={styles.formCustomError}>{errors?.password?.message}</div>
       <div className={styles.imageContainer}>
         <input

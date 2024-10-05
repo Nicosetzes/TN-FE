@@ -1,5 +1,7 @@
 .form {
+  background-color: rgb(34, 15, 119);
   border: #fff 1px solid;
+  border-radius: 0.75rem;
   display: flex;
   flex-direction: column;
   margin: 3rem auto;
@@ -12,10 +14,19 @@
   margin: 1rem 0 0 0;
 }
 
+.form input {
+  min-height: 30px;
+  width: 100%;
+}
+
 .formCustomError {
   color: #ff5555;
   font-size: 0.85rem;
-  margin: 0.75rem 0;
+}
+
+.formRow {
+  display: flex;
+  margin: 0.5rem 0;
 }
 
 .hidden {
