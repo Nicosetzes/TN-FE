@@ -5,7 +5,7 @@ import styles from "./styles.module.css";
 import Link from "next/link";
 
 const ExperimentalDesignBreadcrumb = ({ isOverviewHidden, step }) => {
-  const url = "/dashboard/experimental-designs/create";
+  const url = "/virtual-lab/experimental-designs/create";
 
   const steps = [
     {

@@ -69,7 +69,7 @@ const CreateExperimentalDesignStepFour = () => {
       key: "explanatory_variables",
       value: explanatory_variables,
     });
-    router.push("/dashboard/experimental-designs/create/step-5");
+    router.push("/virtual-lab/experimental-designs/create/step-5");
   };
 
   useEffect(() => {
@@ -111,13 +111,13 @@ const CreateExperimentalDesignStepFour = () => {
       className={styles.container}
     >
       <Link
-        href="/dashboard/experimental-designs/create/step-3"
+        href="/virtual-lab/experimental-designs/create/step-3"
         className={styles.arrowLeft}
       >
         Volver <ArrowLeft size={36} />
       </Link>
       <Link
-        href="/dashboard/experimental-designs/create/step-5"
+        href="/virtual-lab/experimental-designs/create/step-5"
         className={styles.arrowRight}
       >
         Siguiente <ArrowRight size={36} />

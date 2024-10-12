@@ -2,9 +2,10 @@
 
 import ExperimentalDesignBreadcrumb from "@/components/experimentalDesignBreadcrumb/ExperimentalDesignBreadcrumb";
 import { useExperimentalDesign } from "@/context/ExperimentalDesignContext";
-import { experimentalDesignNameFormSchema } from "@/utils/definitions";
+import { responseVariableFormSchema } from "@/utils/definitions";
 import { ArrowRight } from "@/components/icons/ArrowRight";
 import { usePathname, useRouter } from "next/navigation";
+import { ArrowLeft } from "@/components/icons/ArrowLeft";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { toastError } from "@/utils/alerts";
 import { useForm } from "react-hook-form";
@@ -13,7 +14,7 @@ import { motion } from "framer-motion";
 import { useEffect } from "react";
 import Link from "next/link";
 
-const CreateExperimentalDesignStepOne = () => {
+const CreateExperimentalDesignStepThree = () => {
   const pathname = usePathname();
   const router = useRouter();
 
@@ -30,7 +31,7 @@ const CreateExperimentalDesignStepOne = () => {
     trigger,
     watch,
   } = useForm({
-    resolver: zodResolver(experimentalDesignNameFormSchema),
+    resolver: zodResolver(responseVariableFormSchema),
   });
 
   const validateForm = async () => {
@@ -44,13 +45,13 @@ const CreateExperimentalDesignStepOne = () => {
     handleSubmit(onSubmit)();
   };
 
-  const onSubmit = ({ name }) => {
+  const onSubmit = ({ response_variable }) => {
     updateExperimentalDesign({
-      key: "name",
+      key: "response_variable",
       step: currentStep,
-      value: name,
+      value: response_variable,
     });
-    router.push("/dashboard/experimental-designs/create/step-2");
+    router.push("/virtual-lab/experimental-designs/create/step-4");
   };
 
   useEffect(() => {
@@ -60,19 +61,19 @@ const CreateExperimentalDesignStepOne = () => {
         .filter((element) => element.step === currentStep)
         .at(0);
       if (hasValueBeenDeclared) {
-        console.log("El paso ya se había confirmado");
         const { key, value } = hasValueBeenDeclared;
+        console.log("El paso ya se había confirmado");
         setValue(key, value);
       }
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [pathname]);
 
-  // const watchName = watch("name");
+  const watchResponseVariable = watch("response_variable");
+
+  console.log(watchResponseVariable);
 
   console.log(experimentalDesign);
-
-  console.log(errors);
 
   return (
     <motion.div
@@ -81,7 +82,13 @@ const CreateExperimentalDesignStepOne = () => {
       className={styles.container}
     >
       <Link
-        href="/dashboard/experimental-designs/create/step-2"
+        href="/virtual-lab/experimental-designs/create/step-2"
+        className={styles.arrowLeft}
+      >
+        Volver <ArrowLeft size={36} />
+      </Link>
+      <Link
+        href="/virtual-lab/experimental-designs/create/step-4"
         className={styles.arrowRight}
       >
         Siguiente <ArrowRight size={36} />
@@ -92,8 +99,10 @@ const CreateExperimentalDesignStepOne = () => {
         isOverviewHidden={!experimentalDesign.length}
       />
       <form onSubmit={handleSubmit(onSubmit)} className={styles.form}>
-        <input {...register("name")} placeholder="Nombre" />
-        <div className={styles.formCustomError}>{errors?.name?.message}</div>
+        <input {...register("response_variable")} placeholder="Medición" />
+        <div className={styles.formCustomError}>
+          {errors?.response_variable?.message}
+        </div>
         <button
           value="Enviar"
           className="button-primary"
@@ -106,4 +115,4 @@ const CreateExperimentalDesignStepOne = () => {
   );
 };
 
-export default CreateExperimentalDesignStepOne;
+export default CreateExperimentalDesignStepThree;

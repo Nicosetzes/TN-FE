@@ -18,7 +18,6 @@ export const SessionProvider = ({ children }) => {
   // Utilizo useEffect para intentar obtener datos de sesión desde localStorage
 
   useEffect(() => {
-    console.log("valido sesión");
     const userSession = JSON.parse(localStorage.getItem("userSession"));
     if (userSession?.token) {
       // Si hay un token en localStorage, realizo solicitud al backend para verificar su validez y obtener los datos del usuario
@@ -95,8 +94,7 @@ export const SessionProvider = ({ children }) => {
         token: sessionData.token,
       })
     );
-    console.log(deniedRoute);
-    const targetRoute = deniedRoute || "/profile"; // Guardo la ruta negada al usuario
+    const targetRoute = deniedRoute || "/"; // Guardo la ruta negada al usuario
     setDeniedRoute(null); // Limpio deniedRoute
     router.replace(targetRoute); // Ejecuto la redirección
 
@@ -105,6 +103,8 @@ export const SessionProvider = ({ children }) => {
       "Inicio de sesión exitoso",
       `Bienvenido ${sessionData.first_name}`
     );
+
+    setContextLoader(false);
   };
 
   const logout = () => {

@@ -4,7 +4,7 @@ export const LoginFormSchema = z.object({
   username: z.string().email({ message: "Introduzca un email válido" }).trim(),
   password: z
     .string()
-    .min(8, { message: "Debe contener al menos 8 caracteres" })
+    .min(1, { message: "Introduzca contraseña" })
     // Resta definir si validaré formato previo a enviar solicitud al BE
     // También definir si informaté al usuario de posibles errores en el formato
     .trim(),

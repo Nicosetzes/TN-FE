@@ -68,7 +68,7 @@ const CreateExperimentalDesignPage = () => {
             experimental
           </p>
           <Link
-            href="/dashboard/experimental-designs/create/step-1"
+            href="/virtual-lab/experimental-designs/create/step-1"
             className="button-primary"
           >
             Comenzar

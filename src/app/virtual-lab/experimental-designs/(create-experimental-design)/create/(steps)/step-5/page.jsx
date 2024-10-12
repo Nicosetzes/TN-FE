@@ -86,7 +86,7 @@ const CreateExperimentalDesignStepFive = () => {
     );
 
     setExperimentalDesign(updatedExperimentalDesign);
-    router.push("/dashboard/experimental-designs/create/step-6");
+    router.push("/virtual-lab/experimental-designs/create/step-6");
   };
 
   useEffect(() => {
@@ -125,13 +125,13 @@ const CreateExperimentalDesignStepFive = () => {
       className={styles.container}
     >
       <Link
-        href="/dashboard/experimental-designs/create/step-4"
+        href="/virtual-lab/experimental-designs/create/step-4"
         className={styles.arrowLeft}
       >
         Volver <ArrowLeft size={36} />
       </Link>
       <Link
-        href="/dashboard/experimental-designs/create/step-6"
+        href="/virtual-lab/experimental-designs/create/step-6"
         className={styles.arrowRight}
       >
         Siguiente <ArrowRight size={36} />
@@ -146,7 +146,7 @@ const CreateExperimentalDesignStepFive = () => {
           <div>Aún no se han definido las variables explicatorias</div>
           <Link
             href={{
-              pathname: `/dashboard/experimental-designs/create/step-${
+              pathname: `/virtual-lab/experimental-designs/create/step-${
                 currentStep - 1
               }`,
             }}

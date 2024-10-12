@@ -90,7 +90,7 @@ const CreateExperimentalDesignStepTwo = () => {
       step: currentStep,
       value: experimental_model,
     });
-    router.push("/dashboard/experimental-designs/create/step-3");
+    router.push("/virtual-lab/experimental-designs/create/step-3");
   };
 
   const variants = {
@@ -110,13 +110,13 @@ const CreateExperimentalDesignStepTwo = () => {
       className={styles.container}
     >
       <Link
-        href="/dashboard/experimental-designs/create/step-1"
+        href="/virtual-lab/experimental-designs/create/step-1"
         className={styles.arrowLeft}
       >
         Volver <ArrowLeft size={36} />
       </Link>
       <Link
-        href="/dashboard/experimental-designs/create/step-3"
+        href="/virtual-lab/experimental-designs/create/step-3"
         className={styles.arrowRight}
       >
         Siguiente <ArrowRight size={36} />

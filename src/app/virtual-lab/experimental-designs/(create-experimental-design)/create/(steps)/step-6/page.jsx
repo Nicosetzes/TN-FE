@@ -53,7 +53,7 @@ const CreateExperimentalDesignStepSix = () => {
 
     updateExperimentalDesignWithMultipleEntries(currentStep, entries);
 
-    router.push("/dashboard/experimental-designs/create");
+    router.push("/virtual-lab/experimental-designs/create");
   };
 
   useEffect(() => {
@@ -90,13 +90,13 @@ const CreateExperimentalDesignStepSix = () => {
       className={styles.container}
     >
       <Link
-        href="/dashboard/experimental-designs/create/step-5"
+        href="/virtual-lab/experimental-designs/create/step-5"
         className={styles.arrowLeft}
       >
         Volver <ArrowLeft size={36} />
       </Link>
       <Link
-        href="/dashboard/experimental-designs/create"
+        href="/virtual-lab/experimental-designs/create"
         className={styles.arrowRight}
       >
         Siguiente <ArrowRight size={36} />
@@ -109,7 +109,7 @@ const CreateExperimentalDesignStepSix = () => {
       {/* Falta validar que al menos un paso haya sido validado antes de podés ver el overview */}
       {experimentalDesign.length ? (
         <Link
-          href="/dashboard/experimental-designs/create"
+          href="/virtual-lab/experimental-designs/create"
           className={styles.arrowRight}
         >
           Siguiente <ArrowRight size={36} />

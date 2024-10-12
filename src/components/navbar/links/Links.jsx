@@ -26,7 +26,12 @@ const Links = () => {
         ))}
         {userSession ? (
           <>
-            <NavLink item={{ title: "Dashboard", path: "/dashboard" }} />
+            <NavLink
+              item={{
+                title: "Laboratorio virtual",
+                path: "/virtual-lab",
+              }}
+            />
             <NavLink item={{ title: "Mi perfil", path: "/profile" }} />
             <button className={styles.logout} onClick={logout}>
               Cerrar sesión
@@ -52,7 +57,12 @@ const Links = () => {
         ))}
         {userSession ? (
           <>
-            <NavLink item={{ title: "Dashboard", path: "/dashboard" }} />
+            <NavLink
+              item={{
+                title: "Laboratorio virtual",
+                path: "/virtual-lab",
+              }}
+            />
             <NavLink item={{ title: "Mi perfil", path: "/profile" }} />
             <button className={styles.logout} onClick={logout}>
               Cerrar sesión
